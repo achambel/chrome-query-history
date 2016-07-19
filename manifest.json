@@ -1,0 +1,57 @@
+{
+  "manifest_version": 2,
+
+  "name": "Query History",
+  "description": "Bem vindo ao Query History! Sua extensão realmente SIMPLES!",
+  "short_name": "Query History",
+  "version": "1.0",
+  "author": "Adriano Chambel M. de Lima <acmlima.softweb@gmail.com>",
+  "homepage_url": "https://github.com/achambel/chrome-query-history",
+
+  "minimum_chrome_version": "45",
+
+  "permissions": ["tabs", "history"],
+
+  "content_scripts": [
+    {
+
+      "matches": ["*://*/portal/simples/ExecucaoDireta.*"],
+
+      "css": [
+              "css/template.css",
+              "css/vendor/codemirror/codemirror.css",
+              "css/vendor/codemirror/show-hint.css"
+            ],
+
+      "js": [
+              "js/vendor/codemirror/codemirror-compressed.js",
+              "js/user.js",
+              "js/utils.js",
+              "js/prototypes.js",
+              "js/storage.js",
+              "js/pagemod.js",
+              "js/sql.js",
+              "js/events.js",
+              "js/editor.js"
+            ]
+    }
+
+  ],
+
+  "browser_action": {
+    "default_icon": "icon.png",
+    "default_title": "Query History - Execução Direta no SIMPLES"
+  },
+
+  "options_ui": {
+    "page": "options.html",
+    "chrome_style": true
+  },
+
+  "background": {
+    "scripts": ["js/background.js"]
+  },
+
+  "content_security_policy": "script-src 'self' https://ssl.google-analytics.com; object-src 'self'"
+
+}

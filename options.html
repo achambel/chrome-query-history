@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+  <meta charset="utf-8">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
+  <style type="text/css">
+  body{
+    background-color: #9e9e9e;
+  }
+  </style>
+</head>
+<body>
+<div class="panel panel-primary" style="width: 700px; margin: 5px auto;">
+
+	  <div class="panel-heading">Bem vindo ao Query History! Sua extensão realmente SIMPLES</div>
+      <div class="panel-body">
+
+        <ul class="list-group">
+
+          <li class="list-group-item">
+  		  		<span class="glyphicon glyphicon-ok"></span>
+  		  		Visual moderno
+  		  	</li>
+
+          <li class="list-group-item">
+  		  		<span class="glyphicon glyphicon-ok"></span>
+  		  		Editor de query com autocomplete
+  		  	</li>
+
+    		  	<li class="list-group-item">
+    		  		<span class="glyphicon glyphicon-ok"></span>
+    		  		Salve suas queries e recupere-as a um clique
+    		  	</li>
+
+            <li class="list-group-item">
+              <span class="glyphicon glyphicon-ok"></span>
+              Exporte suas queries para um arquivo.sql
+            </li>
+
+            <li class="list-group-item">
+              <span class="glyphicon glyphicon-ok"></span>
+              Exporte suas queries em JSON  e utilize-as em outro browser com o Query History instalado
+            </li>
+
+            <li class="list-group-item">
+              <span class="glyphicon glyphicon-ok"></span>
+              Gere DML INSERT com os resultados das consultas
+            </li>
+
+            <li class="list-group-item">
+              <span class="glyphicon glyphicon-ok"></span>
+              Visualize linhas do resultado das consultas na vertical
+            </li>
+
+            <li class="list-group-item">
+              <span class="glyphicon glyphicon-ok"></span>
+              Uma vez autenticado no SIMPLES, sempre que quiseres abrir a execução direta, clique no ícone da extensão,
+              no canto superior direito do navegador
+              <img src="icon.png">
+            </li>
+
+    		</ul>
+
+        <table class="table table-bordered table-striped">
+          <caption>Shortcuts</caption>
+          <thead><th>Atalho</th><th>Função</th></thead>
+          <tbody>
+            <tr><td>Ctrl+Enter</td><td>Executa a query</td></tr>
+            <tr><td>Ctrl+Space</td><td>Autocomplete</td></tr>
+          </tbody>
+        </table>
+
+        <a class="btn btn-primary" href="https://github.com/achambel/chrome-query-history" target="_blank">
+          <span class="glyphicon glyphicon-console"></span>
+          View code on github.com
+        </a>
+
+        <a href="#" class="btn btn-success" id="btnOpenFromHistory">
+          <span class="glyphicon glyphicon-new-window"></span>
+          Ok, abrir agora
+        </a>
+
+     </div>
+</div>
+  <script src="js/options.js"></script>
+</body>
+</html>
