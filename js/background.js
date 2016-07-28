@@ -2,10 +2,24 @@ chrome.runtime.onInstalled.addListener(() => chrome.runtime.openOptionsPage());
 
 function openFromHistory() {
 
-  chrome.history.search({text: '/portal/simples/ExecucaoDireta.', maxResults: 1}, (result) => {
-    if(result)
-      chrome.tabs.create({'url': result[0].url});
-  });
+  chrome.history.search(
+      { text: '/portal/simples/ExecucaoDireta.',
+        maxResults: 1,
+        startTime: new Date(1970,00,01).getTime()
+      },
+
+      (result) => {
+        if(result.length)
+          chrome.tabs.create({'url': result[0].url});
+        else
+          new Notification('Ops, acesse o SIMPLES normalmente',
+            {
+              body: 'A URL ainda não está no seu histórico',
+              icon: 'icon.png'
+            }
+          );
+      }
+  );
 }
 
 chrome.browserAction.onClicked.addListener(openFromHistory);
