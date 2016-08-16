@@ -92,21 +92,94 @@ document.querySelectorAll('a.vertical-grid').addEventListener('click', function(
   var modalTable = document.querySelector('#verticalGridModalTable tbody');
   modalTable.innerHTML = '';
 
-  for(let i = 0; i < th.length; i++) {
+  th.forEach( (item, index) => {
     var tr = document.createElement('tr');
 
     var columnName = document.createElement('td');
-    columnName.innerHTML = `<strong>${th[i].textContent}</strong>`;
+    columnName.innerHTML = `<strong>${item.textContent}</strong>`;
 
     tr.appendChild(columnName);
 
     var columnValue = document.createElement('td');
-    columnValue.textContent = this.parentElement.parentElement.children[i].textContent;
+    columnValue.textContent = this.parentElement.parentElement.children[index].textContent;
 
     tr.appendChild(columnValue);
 
     modalTable.appendChild(tr);
+  });
+
+});
+
+document.querySelector('#exportar-update').addEventListener('click', () => {
+  var th = document.querySelectorAll('#GridResultado th');
+
+  var columns = document.querySelector('#columns');
+  columns.innerHTML = null;
+
+  var conditions = document.querySelector('#conditions');
+  conditions.innerHTML = null;
+
+  th.forEach( (element) => {
+    var option = `<option value="${element.textContent}">${element.textContent}</option>`;
+    columns.innerHTML += option;
+    conditions.innerHTML += option;
+  });
+
+  document.querySelector('#tableName').value = '';
+  document.querySelector('#previewDml').value = '';
+
+});
+
+document.querySelector('#previewDmlBtn').addEventListener('click', () => {
+  var tableName = document.querySelector('#tableName').value || '<nome da tabela>';
+  var columns = [].map.call(document.querySelector('#columns').selectedOptions, (obj) => `${obj.value} = ?`);
+  var conditions = [].map.call(document.querySelector('#conditions').selectedOptions, (obj) => `${obj.value} = ?`);
+  var preview = document.querySelector('#previewDml');
+
+  preview.value = `UPDATE ${tableName}
+  SET ${columns.join(', ')}
+
+  WHERE ${conditions.join(' AND ')};`;
+
+});
+
+document.querySelector('#saveDmlBtn').addEventListener('click', (e) => {
+  var tableName = document.querySelector('#tableName').value;
+  var columns = [].map.call(document.querySelector('#columns').selectedOptions, obj => obj.value);
+  var conditions = [].map.call(document.querySelector('#conditions').selectedOptions, obj => obj.value);
+
+  if(!tableName.trim() || !columns.length || !conditions.length) {
+    alert('Nome da tabela, colunas e condições devem ser informados!');
+    return;
   }
+
+  var tbody = [].map.call(document.querySelectorAll('#GridResultado tbody tr th'), item => item.textContent);
+  var trs = [].slice.call(document.querySelectorAll('#GridResultado tbody tr')).slice(1); // index 0 have column names
+  var toSave = [];
+
+  trs.forEach( (tr) => {
+    var dmlCol = [];
+    var dmlConditions = [];
+
+    [].forEach.call(tr.children, (item, index) => {
+      var value = toSqlType(item.textContent);
+
+      if(columns.includes(tbody[index])) {
+        dmlCol.push(`${tbody[index]} = ${value}`);
+      }
+
+      if(conditions.includes(tbody[index])) {
+        dmlConditions.push(`${tbody[index]} = ${value}`);
+      }
+
+    });
+
+    toSave.push(`UPDATE ${tableName} SET ${dmlCol.join(', ')} WHERE ${dmlConditions.join(' AND ')};`);
+  });
+
+  var blob = new Blob([toSave.join("\r\n")], {type: 'text/sql'});
+  e.target.download = `query_simples_update_${tableName}_${Date.now()}.sql`;
+  e.target.href = window.URL.createObjectURL(blob);
 });
 
 document.querySelector('#form1').addEventListener('submit', function() {

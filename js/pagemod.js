@@ -125,6 +125,19 @@ for(let i = 1; i < trs.length; i++) {
                      href="#">${tr.textContent}</a>`;
 }
 
+document.getElementById('result').insertAdjacentHTML('beforeend', `<div class="dropup pull-right">
+              <button class="btn btn-default btn-xs dropdown-toggle" type="button" id="dropdown-dml" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Gerar DML
+              <span class="caret"></span>
+              </button>
+              <ul class="dropdown-menu" id="dml-actions" aria-labelledby="dropdown-dml">
+                <li><a href="#" id="exportar-insert" title="Exporta resultado da query com DML de INSERT">INSERT</a></li>
+                <li><a href="#" id="exportar-update" title="Exporta resultado da query com DML de UPDATE"
+                      data-toggle="modal" data-target="#updateDMLModal">UPDATE</a></li>
+              </ul>
+              </div>
+  `);
+
 // footer
 var footer = document.createElement('footer');
 footer.setAttribute('class', 'footer');
@@ -144,10 +157,6 @@ document.body.insertAdjacentHTML('beforeend', `<footer class="footer">
       </div>
           <div class="pull-right">
             <input type="file" id="upload" accept="text/json" style="display:none;">
-            <a id="exportar-insert" class="btn btn-default btn-xs" title="Exporta resultado da query com DML de INSERT">
-              <span class="glyphicon glyphicon-menu-hamburger"></span>
-                Exportar como INSERT
-            </a>
             <a id="local-storage-download"></a>
             <a id="local-storage-json"></a>
             <a id="local-storage-info"></a>
@@ -175,6 +184,37 @@ document.body.insertAdjacentHTML('beforeend', `<div>
         </table>
       </div>
       <div class="modal-footer">
+        <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Fechar</button>
+      </div>
+    </div>
+  </div>
+</div>
+</div>`);
+
+document.body.insertAdjacentHTML('beforeend', `<div>
+<div class="modal fade" id="updateDMLModal" tabindex="-1" role="dialog" aria-labelledby="updateDMLModalLabel">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="updateDMLModalLabel">Gerar DML UPDATE</h4>
+      </div>
+      <div class="modal-body">
+        <label for="tableName">Qual o nome da tabela?</label>
+        <input type="text" class="form-control" id="tableName" placeholder="Digite aqui o nome da tabela">
+
+        <label for="columns">Quais as colunas presentes no SET?</label>
+        <select multiple id="columns" class="form-control"></select>
+
+        <label for="conditions">Quais as colunas presentes no WHERE?</label>
+        <select multiple id="conditions" class="form-control"></select>
+
+        <label>Preview do DML</label>
+        <textarea id="previewDml" class="form-control" rows="10" readonly></textarea>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-info btn-sm" id="previewDmlBtn">Preview</button>
+        <a href="#" class="btn btn-success btn-sm" id="saveDmlBtn">Salvar</a>
         <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Fechar</button>
       </div>
     </div>
