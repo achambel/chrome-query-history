@@ -45,3 +45,30 @@ QueryHistory  Query  Query     Query  Query         QueryHistory  QueryHistory  
 `;
   console.log(`%c${welcome}`, 'background: #222; color: #4caf50;');
 }
+
+function getColumnName(tdElement) {
+	var index = Array.prototype.slice.call(tdElement.parentElement.children).indexOf(tdElement);
+  return document.querySelector(`#GridResultado thead > tr > th:nth-child(${++index})`).textContent;
+}
+
+function setVerticalGridModal(tds) {
+	var modalTable = document.querySelector('#verticalGridModalTable tbody');
+  modalTable.innerHTML = '';
+
+  for( var td of tds ) {
+  	var tr = document.createElement('tr');
+
+    var columnName = document.createElement('td');
+    columnName.innerHTML = `<strong>${getColumnName(td)}</strong>`;
+
+    tr.appendChild(columnName);
+
+    var columnValue = document.createElement('td');
+    columnValue.textContent = td.textContent;
+
+    tr.appendChild(columnValue);
+
+    modalTable.appendChild(tr);
+  }
+
+}

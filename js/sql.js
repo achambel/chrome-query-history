@@ -52,7 +52,7 @@ function exportInsert () {
   if (tableName != '' && tableName != null) {
     ele.setAttribute('download', `query_simples_insert_in_${tableName}_${Date.now()}.sql`);
 
-    var data = generateInsert(tableName).join("\n");
+    var data = generateInsert(tableName).join("\r\n");
     ele.setAttribute('href', 'data:text/sql;charset=utf-8,' + encodeURIComponent(data));
   }
   else {

@@ -17,6 +17,9 @@ if (result.tagName == 'TABLE') {
   result.removeAttribute('style');
   result.querySelectorAll('tr').removeAttribute('style');
   result.setAttribute('class', 'table table-striped table-hover table-bordered table-condensed');
+  var thead = document.createElement('thead');
+  thead.appendChild(document.querySelector('#GridResultado tr'));
+  result.insertAdjacentElement('afterBegin', thead);
 }
 else {
   result.setAttribute('class', 'alert alert-info');
@@ -107,36 +110,29 @@ form.insertAdjacentHTML('beforeend', `<div class="btn-group form-group">
                                 <input name="btnExcel" id="btnExcel" type="image" class="hidden">
                                 Exportar
                               </label>
+                              <div class="btn-group">
+                                <button class="btn btn-default btn-xs dropdown-toggle" type="button" id="dropdown-dml" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                  <i class="glyphicon glyphicon-export icon-share"></i>
+                                  Gerar DML
+                                  <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu" id="dml-actions" aria-labelledby="dropdown-dml">
+                                  <li><a href="#" id="exportar-insert" title="Exporta resultado da query com DML de INSERT">INSERT</a></li>
+                                  <li><a href="#" id="exportar-update" title="Exporta resultado da query com DML de UPDATE"
+                                          data-toggle="modal" data-target="#updateDMLModal">UPDATE</a></li>
+                                </ul>
+                              </div>
                             </div>
                             <div class="form-group"><textarea id="edtdeclaracao" class="form-control" name="edtdeclaracao" rows="10"></textarea></div>
                             <div class="grid-resultado" id="result"></div>
+                            <a href="#" id="details" class="vertical-grid btn btn-info btn-xs hide" data-toggle="modal" data-target="#verticalGridModal">
+                              <i class="glyphicon glyphicon-zoom-in"></i>
+                              Vertical Grid
+                            </a>
                             `);
 
 document.querySelector('#edtdeclaracao').textContent = queryTextArea;
 document.querySelector('#result').appendChild(result);
-
-var trs = document.querySelectorAll('#GridResultado tbody tr');
-for(let i = 1; i < trs.length; i++) {
-  var tr = trs[i].children[0];
-  tr.innerHTML = `<a title="Clique para mostrar esta linha na vertical"
-                     class="vertical-grid"
-                     data-toggle="modal"
-                     data-target="#verticalGridModal"
-                     href="#">${tr.textContent}</a>`;
-}
-
-document.getElementById('result').insertAdjacentHTML('beforeend', `<div class="dropup pull-right">
-              <button class="btn btn-default btn-xs dropdown-toggle" type="button" id="dropdown-dml" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Gerar DML
-              <span class="caret"></span>
-              </button>
-              <ul class="dropdown-menu" id="dml-actions" aria-labelledby="dropdown-dml">
-                <li><a href="#" id="exportar-insert" title="Exporta resultado da query com DML de INSERT">INSERT</a></li>
-                <li><a href="#" id="exportar-update" title="Exporta resultado da query com DML de UPDATE"
-                      data-toggle="modal" data-target="#updateDMLModal">UPDATE</a></li>
-              </ul>
-              </div>
-  `);
 
 // footer
 var footer = document.createElement('footer');

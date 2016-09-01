@@ -86,30 +86,6 @@ document.querySelector('#clickBtnExecutar').addEventListener('click', function()
 	document.querySelector('#btnExecutar').click();
 });
 
-
-document.querySelectorAll('a.vertical-grid').addEventListener('click', function() {
-	var th = document.querySelectorAll('#GridResultado th');
-  var modalTable = document.querySelector('#verticalGridModalTable tbody');
-  modalTable.innerHTML = '';
-
-  th.forEach( (item, index) => {
-    var tr = document.createElement('tr');
-
-    var columnName = document.createElement('td');
-    columnName.innerHTML = `<strong>${item.textContent}</strong>`;
-
-    tr.appendChild(columnName);
-
-    var columnValue = document.createElement('td');
-    columnValue.textContent = this.parentElement.parentElement.children[index].textContent;
-
-    tr.appendChild(columnValue);
-
-    modalTable.appendChild(tr);
-  });
-
-});
-
 document.querySelector('#exportar-update').addEventListener('click', () => {
   var th = document.querySelectorAll('#GridResultado th');
 
@@ -153,8 +129,8 @@ document.querySelector('#saveDmlBtn').addEventListener('click', (e) => {
     return;
   }
 
-  var tbody = [].map.call(document.querySelectorAll('#GridResultado tbody tr th'), item => item.textContent);
-  var trs = [].slice.call(document.querySelectorAll('#GridResultado tbody tr')).slice(1); // index 0 have column names
+  var tbody = [].map.call(document.querySelectorAll('#GridResultado thead tr th'), item => item.textContent);
+  var trs = [].slice.call(document.querySelectorAll('#GridResultado tbody tr')).slice(0); // index 0 have column names
   var toSave = [];
 
   trs.forEach( (tr) => {
@@ -183,5 +159,26 @@ document.querySelector('#saveDmlBtn').addEventListener('click', (e) => {
 });
 
 document.querySelector('#form1').addEventListener('submit', function() {
+  editor.setValue(editor.getValue().replace(/;$/,''));
   chrome.runtime.sendMessage({action: "querysubmit"});
+});
+
+document.querySelectorAll('#GridResultado tbody > tr > td').addEventListener('mouseover', (e) => {
+  e.target.title = e.target.title || getColumnName(e.target);
+});
+
+document.querySelectorAll('#GridResultado tbody > tr > td').addEventListener('mouseover', (e) => {
+  var details = document.querySelector('#details');
+  clientRect = e.target.getBoundingClientRect();
+  details.setAttribute('style', `top:${clientRect.bottom-details.clientHeight}px;left:${clientRect.right-details.clientWidth}px;position:absolute;opacity:0.3;`);
+  details.classList.add('show');
+});
+
+
+document.querySelectorAll('#details').addEventListener('click', (e) => {
+  var td = document.elementsFromPoint(e.clientX, e.clientY)[1];
+
+  if(td.tagName == 'TD') {
+    setVerticalGridModal(td.parentElement.children);
+  }
 });

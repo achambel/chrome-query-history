@@ -1,9 +1,10 @@
 #result{
 	margin-bottom: 40px;
+  overflow-x: auto;
+  max-height: 400px;
 }
 
 .grid-resultado {
-	overflow-x: scroll;
 	padding-left: 0px;
 }
 
