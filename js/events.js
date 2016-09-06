@@ -167,18 +167,23 @@ document.querySelectorAll('#GridResultado tbody > tr > td').addEventListener('mo
   e.target.title = e.target.title || getColumnName(e.target);
 });
 
-document.querySelectorAll('#GridResultado tbody > tr > td').addEventListener('mouseover', (e) => {
+document.querySelectorAll('#GridResultado tbody > tr').addEventListener('mouseover', (e) => {
   var details = document.querySelector('#details');
-  clientRect = e.target.getBoundingClientRect();
-  details.setAttribute('style', `top:${clientRect.bottom-details.clientHeight}px;left:${clientRect.right-details.clientWidth}px;position:absolute;opacity:0.3;`);
+  var tr = e.target.getBoundingClientRect();
+  var scrollTop = window.pageYOffset;
+  var scrollLeft = window.pageXOffset;
+
+  details.setAttribute('style', `top:${tr.top+scrollTop}px;left:${tr.left + scrollLeft - details.clientWidth}px;position:absolute;opacity:0.3;`);
   details.classList.add('show');
+
 });
 
 
 document.querySelectorAll('#details').addEventListener('click', (e) => {
-  var td = document.elementsFromPoint(e.clientX, e.clientY)[1];
+  var td = document.elementsFromPoint(e.clientX + e.target.clientWidth, e.clientY)[0];
 
   if(td.tagName == 'TD') {
     setVerticalGridModal(td.parentElement.children);
   }
+
 });
