@@ -164,7 +164,13 @@ document.querySelector('#form1').addEventListener('submit', function() {
 });
 
 document.querySelectorAll('#GridResultado tbody > tr > td').addEventListener('mouseover', (e) => {
-  e.target.title = e.target.title || getColumnName(e.target);
+  var tip = e.target.title || getColumnName(e.target);
+  if(tip.toUpperCase().includes("CRON_EXPRESSION")){
+    e.target.title = "(segundo) (minuto) (hora) (dia) (mês) (dia da semana)";
+  } else {
+    e.target.title = tip;
+  }
+  
 });
 
 document.querySelectorAll('#GridResultado tbody > tr').addEventListener('mouseover', (e) => {
